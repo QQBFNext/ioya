@@ -1,0 +1,127 @@
+mainmenu "IOYA Configuration"
+
+menu "Build Options"
+
+config CROSS_COMPILE
+	string "Cross-compiler tool prefix"
+	help
+		Same as running 'make CROSS_COMPILE=prefix-' but stored for
+		default make runs in this kernel build directory.  You don't
+		need to set this unless you want the configured kernel build
+		directory to select the cross-compiler automatically.
+
+config XNU_SOURCES
+	string "Path to XNU sources"
+	help
+	  Path to the XNU source tree.
+	  This value is required for the building rally.
+
+config IOYA_TEXT_BASE
+	hex "IOYA Text Base"
+	default 0x80000000
+	help
+	  IOYA Text Base.
+
+config RALLY_TEXT_BASE
+	hex "Rally Text Base"
+	default 0x0
+	help
+	  Rally Text Base.
+
+endmenu
+
+menu "Device"
+
+choice
+	prompt "Select the target device"
+
+config QEMU_VIRT
+	bool "Support for QEMU virt platform"
+	help
+	  Say Y if you are using QEMU virt platform.
+
+config XIAOMI_ALIOTH
+	bool "Support for Xiaomi POCO F3"
+	help
+	  Say Y if you are using Xiaomi POCO F3.
+
+endchoice
+
+endmenu
+
+menu "Drivers"
+
+config SERIAL_PL011
+	bool "Support for PL011 UART"
+	default n
+	help
+	  Say Y if you have device with the PL011 UART Block.
+
+config SERIAL_PL011_BASE
+	hex "PL011 UART base address"
+	default 0x0
+	depends on SERIAL_PL011
+	help
+	  Specify the base address of the PL011 UART Block.
+
+config SERIAL_FB
+	bool "Support for Framebuffer"
+	default n
+	help
+	  Say Y if you want to use the framebuffer driver.
+
+config SERIAL_FB_BASE
+	hex "Framebuffer base address"
+	default 0x0
+	depends on SERIAL_FB
+	help
+	  Specify the base address of the Framebuffer.
+
+config SERIAL_FB_WIDTH
+	int "Framebuffer width"
+	default 0
+	depends on SERIAL_FB
+	help
+	  Specify the width of the Framebuffer.
+
+config SERIAL_FB_HEIGHT
+	int "Framebuffer height"
+	default 0
+	depends on SERIAL_FB
+	help
+	  Specify the height of the Framebuffer.
+
+config SERIAL_FB_STRIDE
+	int "Framebuffer stride"
+	default 0
+	depends on SERIAL_FB
+	help
+	  Specify the stride of the Framebuffer.
+
+config BLOCK_DEV_VIRTIO
+	bool "Support for VirtIO Block Device"
+	default n
+	help
+	  Say Y if you have device with the VirtIO Block Device.
+
+config BLOCK_DEV_VIRTIO_BASE
+	hex "VirtIO Block Device base address"
+	default 0x0
+	depends on BLOCK_DEV_VIRTIO
+	help
+	  Specify the base address of the VirtIO Block Device.
+
+config BLOCK_DEV_UFSHC
+	bool "Support for UFSHC Block Device"
+	default n
+	help
+	  Say Y if you have device with the UFSHC Block Device.
+
+config BLOCK_DEV_UFSHC_BASE
+	hex "UFSHC Block Device base address"
+	default 0x0
+	depends on BLOCK_DEV_UFSHC
+	help
+	  Specify the base address of the UFSHC Block Device.
+
+endmenu

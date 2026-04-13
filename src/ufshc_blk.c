@@ -8,7 +8,7 @@
 #include <ufshc_blk.h>
 #include <utils.h>
 
-#define UFS_HC_BASE (0x01D84000)
+#define UFS_HC_BASE CONFIG_BLOCK_DEV_UFSHC_BASE
 #define UFS_HC_CONTROLLER_STATUS (UFS_HC_BASE + 0x30)
 
 #define UFS_HC_UTP_TRANSFER_REQ_LIST_BASE_L (UFS_HC_BASE + 0x50)

@@ -9,9 +9,10 @@ static int dev_count;
 
 void block_dev_setup()
 {
-#ifdef QEMU
+#ifdef CONFIG_BLOCK_DEV_VIRTIO
     virtio_blk_init();
-#else
+#endif
+#ifdef CONFIG_BLOCK_DEV_UFSHC
     ufshc_blk_init();
 #endif
 }

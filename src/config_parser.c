@@ -49,18 +49,6 @@ void config_parser_parse(char *buf, uint32_t len)
         } else if (strcmp(key, "memory_size") == 0) {
             config.general.memory_size = strtol(value, 0);
         }
-
-#ifndef QEMU
-        if (strcmp(key, "fb_base") == 0) {
-            config.fb.base = strtol(value, 0);
-        } else if (strcmp(key, "fb_width") == 0) {
-            config.fb.width = strtol(value, 0);
-        } else if (strcmp(key, "fb_height") == 0) {
-            config.fb.height = strtol(value, 0);
-        } else if (strcmp(key, "fb_stride") == 0) {
-            config.fb.stride = strtol(value, 0);
-        }
-#endif
     }
 }
 
@@ -85,22 +73,4 @@ void config_parser_validate()
     if (config.general.memory_size == 0) {
         panic("No memory size is provided in config");
     }
-
-#ifndef QEMU
-    if (config.fb.base == 0) {
-        panic("No framebuffer base is provided in config");
-    }
-
-    if (config.fb.width == 0) {
-        panic("No framebuffer width is provided in config");
-    }
-
-    if (config.fb.height == 0) {
-        panic("No framebuffer height is provided in config");
-    }
-
-    if (config.fb.stride == 0) {
-        panic("No framebuffer stride is provided in config");
-    }
-#endif
 }

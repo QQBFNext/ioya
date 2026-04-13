@@ -24,14 +24,14 @@ struct pe_serial_functions {
 
 static void uart_init()
 {
-#ifdef QEMU
+#ifdef CONFIG_SERIAL_PL011
     pl011_uart_init(uart0_base_vaddr);
 #endif
 }
 
 static unsigned int uart_transmit_ready()
 {
-#ifdef QEMU
+#ifdef CONFIG_SERIAL_PL011
     return pl011_uart_transmit_ready(uart0_base_vaddr);
 #else
     return 1;
@@ -40,14 +40,14 @@ static unsigned int uart_transmit_ready()
 
 static void uart_transmit_data(uint8_t c)
 {
-#ifdef QEMU
+#ifdef CONFIG_SERIAL_PL011
     pl011_uart_transmit_data(uart0_base_vaddr, c);
 #endif
 }
 
 static unsigned int uart_receive_ready()
 {
-#ifdef QEMU
+#ifdef CONFIG_SERIAL_PL011
     return pl011_uart_receive_ready(uart0_base_vaddr);
 #else
     return 0;
@@ -56,7 +56,7 @@ static unsigned int uart_receive_ready()
 
 static uint8_t uart_receive_data()
 {
-#ifdef QEMU
+#ifdef CONFIG_SERIAL_PL011
     return pl011_uart_receive_data(uart0_base_vaddr);
 #else
     return 0;

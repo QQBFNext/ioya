@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-void apply_relocations(uintptr_t base);
+void apply_relocations(uintptr_t runtime_base, uintptr_t linked_base);
 
 #endif

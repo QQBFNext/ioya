@@ -64,7 +64,6 @@ char *strsep(char **string, const char *delim)
     }
 }
 
-#ifndef RALLY
 char *strdup(const char *s)
 {
     size_t len;
@@ -72,7 +71,7 @@ char *strdup(const char *s)
 
     len = strlen(s);
 
-    out = malloc(len);
+    out = (char *)__builtin_alloca(len);
     if (!out)
         return NULL;
 
@@ -80,7 +79,6 @@ char *strdup(const char *s)
 
     return out;
 }
-#endif
 
 int strcmp(const char *str1, const char *str2)
 {

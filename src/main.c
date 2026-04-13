@@ -162,10 +162,19 @@ static int read_file(struct fat_fs *fs, const char *path, void *buffer, uint32_t
 
 void main(uintptr_t base, void *payload, size_t payload_size)
 {
-    apply_relocations(base);
+    apply_relocations(base, CONFIG_IOYA_TEXT_BASE);
     heap_init();
     serial_setup();
     cache_enable();
+
+    printf(".___________ _____.___.  _____\n");
+    printf("|   \\_____  \\\\__  |   | /  _  \\\n");
+    printf("|   |/   |   \\/   |   |/  /_\\  \\\n");
+    printf("|   /    |    \\____   /    |    \\\n");
+    printf("|___\\_______  / ______\\____|__  /\n");
+    printf("            \\/\\/              \\/\n");
+    printf("IOYA %s\n", IOYA_VERSION);
+    printf("Built with Clang %s\n", __clang_version__);
 
     block_dev_setup();
 
@@ -190,16 +199,9 @@ void main(uintptr_t base, void *payload, size_t payload_size)
     config_parser_parse(config_text, config_len);
     config_parser_validate();
 
-    fb_setup();
-
-    printf(".___________ _____.___.  _____\n");
-    printf("|   \\_____  \\\\__  |   | /  _  \\\n");
-    printf("|   |/   |   \\/   |   |/  /_\\  \\\n");
-    printf("|   /    |    \\____   /    |    \\\n");
-    printf("|___\\_______  / ______\\____|__  /\n");
-    printf("            \\/\\/              \\/\n");
-    printf("IOYA %s\n", IOYA_VERSION);
-    printf("Built with Clang %s\n", __clang_version__);
+    if (payload_size == 0) {
+        panic("Payload size can't be zero\n");
+    }
 
     uint32_t kernel_len;
     ret = read_file(&fs, config.general.kernel, NULL, &kernel_len);
@@ -287,6 +289,7 @@ void main(uintptr_t base, void *payload, size_t payload_size)
     args->kernel_top = phys_ptr;
     strcpy(args->cmdline, config.general.cmdline);
 
+#ifdef CONFIG_SERIAL_FB
     args->video_args.base_addr = fb_get_base() | 1;
     args->video_args.display = false;
     args->video_args.row_bytes = fb_get_width() * sizeof(uint32_t);
@@ -296,6 +299,7 @@ void main(uintptr_t base, void *payload, size_t payload_size)
     args->video_args.depth.rotate = 0;
     args->video_args.depth.scale = 1;
     args->video_args.depth.boot_rotate = 0;
+#endif
 
     printf("XNU Base: 0x%08llx, End: 0x%08llx\n", info.range.base, info.range.end);
     printf("XNU Loaded At 0x%p\n", info.kernel);

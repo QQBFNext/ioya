@@ -63,10 +63,9 @@ struct kernel_symbols symbols = {
 __attribute__((section(".entry"))) void _start(uint64_t virt, uint64_t phys, uint64_t offset,
                                                struct boot_config cfg)
 {
-    apply_relocations(phys + offset);
+    apply_relocations(phys + offset, CONFIG_RALLY_TEXT_BASE);
     config = cfg;
 
-    fb_setup();
     serial_setup();
 
     virt_base = virt;

@@ -1,4 +1,3 @@
-#include <config.h>
 #include <fb.h>
 #include <fw_cfg.h>
 #include <serial.h>
@@ -119,14 +118,14 @@ static struct serial_funcs fb_funcs = {
 
 void fb_setup()
 {
-#ifdef QEMU
+#ifdef CONFIG_QEMU_VIRT
     struct ramfb cfg = {
-        .addr = BE64(0x9C000000),
+        .addr = BE64(CONFIG_SERIAL_FB_BASE),
         .fourcc = BE32(0x34325258), // XRGB8888
         .flags = BE32(0),
-        .width = BE32(1080),
-        .height = BE32(2400),
-        .stride = BE32(4 * 1080),
+        .width = BE32(CONFIG_SERIAL_FB_WIDTH),
+        .height = BE32(CONFIG_SERIAL_FB_HEIGHT),
+        .stride = BE32(CONFIG_SERIAL_FB_STRIDE * CONFIG_SERIAL_FB_WIDTH),
     };
 
     uint16_t sel = fw_cfg_find_file("etc/ramfb");
@@ -140,10 +139,10 @@ void fb_setup()
     fb.height = BE32(cfg.height);
     fb.stride = BE32(cfg.stride) / BE32(cfg.width);
 #else
-    fb.fb = (uint32_t *)config.fb.base;
-    fb.width = config.fb.width;
-    fb.height = config.fb.height;
-    fb.stride = config.fb.stride;
+    fb.fb = (uint32_t *)CONFIG_SERIAL_FB_BASE;
+    fb.width = CONFIG_SERIAL_FB_WIDTH;
+    fb.height = CONFIG_SERIAL_FB_HEIGHT;
+    fb.stride = CONFIG_SERIAL_FB_STRIDE;
 #endif
 
     fb.size = fb.width * fb.height * fb.stride;

@@ -7,7 +7,7 @@
 #include <symbols.h>
 #endif
 
-#define PL011_BASE (0x9000000)
+#define PL011_BASE CONFIG_SERIAL_PL011_BASE
 
 #define PL011_DR (0x00)
 #define PL011_ECR (0x04)

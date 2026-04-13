@@ -14,15 +14,6 @@ struct boot_config {
         uint64_t load_address;
         uint64_t memory_size;
     } general;
-
-#ifndef QEMU
-    struct {
-        uint64_t base;
-        uint32_t width;
-        uint32_t height;
-        uint32_t stride;
-    } fb;
-#endif
 };
 
 extern struct boot_config config;

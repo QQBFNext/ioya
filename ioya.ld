@@ -1,6 +1,6 @@
 ENTRY(_head)
 TARGET(binary)
-INPUT(rally/build/rally.bin)
+INPUT(rally.bin)
 
 SECTIONS
 {
@@ -12,7 +12,7 @@ SECTIONS
     . = ALIGN(4096);
     .payload : {
         _payload_start = .;
-        rally/build/rally.bin
+        rally.bin
         _payload_end = .;
     }
 

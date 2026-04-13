@@ -12,8 +12,11 @@ void serial_register(struct serial_funcs *func)
 
 void serial_setup()
 {
-#ifdef QEMU
+#ifdef CONFIG_SERIAL_PL011
     pl011_setup();
+#endif
+#ifdef CONFIG_SERIAL_FB
+    fb_setup();
 #endif
 
     struct serial_funcs *func = funcs;

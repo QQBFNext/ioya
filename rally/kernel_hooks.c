@@ -31,7 +31,7 @@ bool vm_inited = false;
 
 void arm_vm_init_hooked(uint64_t memory_size, boot_args *args)
 {
-    apply_relocations(virt_base + payload_offset);
+    apply_relocations(virt_base + payload_offset, CONFIG_RALLY_TEXT_BASE);
     ((void (*)(uint64_t, boot_args *))(&arm_vm_hook)->original)(memory_size, args);
     vm_inited = true;
 }
